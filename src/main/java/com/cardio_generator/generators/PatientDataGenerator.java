@@ -8,12 +8,6 @@ import com.cardio_generator.outputs.OutputStrategy;
  * specific types of measurements (like heart rate, blood pressure)
  * and sending them to a specified output strategy.
  * 
- * Usage example:
- * <pre>{@code
- * PatientDataGenerator generator = new HeartRateGenerator();
- * generator.generate(patientId, fileOutputStrategy);
- * }</pre>
- * 
  * Implementations should define how the data is generated and formatted.
  * 
  * @author Roshik
