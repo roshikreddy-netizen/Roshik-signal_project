@@ -1,16 +1,18 @@
 package com.cardio_generator.outputs;
 
 /**
- * Givces a strategy for giving out patient data.
- * Implementations of this interface determine how patient health data
- * is recorded, displayed, or transmitted.
+ * Decides how generated patient data is delivered/output.
  * 
+ * <p>
+ * Implementation of this interface decides which and how 
+ * the generated cardiovascular data is sent. 
+ * </p>
  * @author Roshik
  */
 public interface OutputStrategy {
 
     /**
-     * Outputs patient data according to the strategy implementation.
+     * Outputs patient data according to the strategy implemented.
      *
      * @param patientId The unique identifier of the patient.
      * @param timestamp The time the measurement was recorded, in milliseconds since epoch.

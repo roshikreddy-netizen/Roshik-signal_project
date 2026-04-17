@@ -5,25 +5,33 @@ import java.util.Random;
 import com.cardio_generator.outputs.OutputStrategy;
 
 /**
- * Generates simulated blood oxygen saturation (SpO2) levels for multiple patients.
+ * Generates simulated blood oxygen saturation levels for patients.
  * <p>
- * Each patient is assigned a baseline saturation value between 95% and 100% at initialization.
- * Future values fluctuate slightly to match real-world.
- * <p>
- * The generator ensures that all saturation values remain within a realistic range (90%-100%).
- * The generated values are sent to a specified {@link OutputStrategy} for handling.
- * 
+ * This class maintinas the last known staturation value for each 
+ * patient and intorduces small vairations over time.
+ * </p>
+ *
+ * Each patient starts with a baseline oxygen level(95%-100%).
  * @author Roshik
  */
 public class BloodSaturationDataGenerator implements PatientDataGenerator {
+
+    /**
+     * Random number of generator used to simulate random changes in oxygen level.
+    */
     private static final Random random = new Random();
+
+    /**
+     * Stores the last known saturation vlaue for each patient.
+     * Index corresponds to patient ID.
+    */
     private int[] lastSaturationValues;
 
     /**
      * Constructs a BloodSaturationDataGenerator for a given number of patients.
      * Initializes each patient's baseline saturation level to a random value between 95% and 100%.
      * 
-     * @param patientCount the total number of patients to simulate (1-based indexing)
+     * @param patientCount the total number of patients(>=1)
      */
     public BloodSaturationDataGenerator(int patientCount) {
         lastSaturationValues = new int[patientCount + 1];
@@ -35,10 +43,9 @@ public class BloodSaturationDataGenerator implements PatientDataGenerator {
     }
 
     /**
-     * Generates a new blood saturation value for the specified patient and outputs it via the given {@link OutputStrategy}.
+     * Generates a new blood saturation value for each patient.
      * <p>
      * The new value is calculated by applying a small random variation (-1, 0, or 1) to the last recorded value.
-     * The result is clamped between 90% and 100% to ensure realistic readings.
      * 
      * @param patientId the ID of the patient for whom to generate data (must be between 1 and patientCount)
      * @param outputStrategy the output strategy responsible for handling the generated data

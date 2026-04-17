@@ -7,21 +7,31 @@ import java.net.Socket;
 import java.util.concurrent.Executors;
 
 /**
- * Implements an output strategy that sends patient data over TCP.
- * This class sets up a TCP server on a port and transmits
- * patient measurements to the connected client.
+ *An output strategy which pushes data over a TCP connection. 
+ * Starts TCP server, establishes connected with client, then sends data as a stream.
  * 
  * @author Roshik
  */
 public class TcpOutputStrategy implements OutputStrategy {
-
+    /** 
+     * Server socket used to listen to clients connections.
+     */
     private ServerSocket serverSocket;
+
+    /**
+     * Socket representing the connected client.
+    */
     private Socket clientSocket;
+
+    /**
+     * Output stream through which data is sent to client.
+    */
     private PrintWriter out;
 
     /**
      * Creates a TCP server on a port and waits for a client connection.
      * Once a client connects, a PrintWriter is initialized to send messages.
+     * Only one client connection is accepted at once.
      * 
      * @param port TCP port number to listen on
      */
@@ -48,7 +58,7 @@ public class TcpOutputStrategy implements OutputStrategy {
     /**
      * Sends a patient data message to the connected TCP client.
      * The message is formatted as "patientId,timestamp,label,data".
-     * If no client is connected, the message is silently ignored.
+     * If no client is connected, the message is ignored.
      * 
      * @param patientId ID of the patient
      * @param timestamp timestamp of the measurement in milliseconds
@@ -56,9 +66,9 @@ public class TcpOutputStrategy implements OutputStrategy {
      * @param data measurement value as a string
      */
     @Override
-    public void output(int patientId, long timestamp, String label, String data) {
+    public void output(int patientId, long timeStamp, String label, String data) {
         if (out != null) {
-            String message = String.format("%d,%d,%s,%s", patientId, timestamp, label, data);
+            String message = String.format("%d,%d,%s,%s", patientId, timeStamp, label, data);
             out.println(message);
         }
     }

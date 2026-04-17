@@ -8,10 +8,10 @@ import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Implements an output strategy that writes patient data to files using a concurrent file map.
+ * An output startegy that writes the patient data to files.
  * <p>
  * Each unique data label gets its own file within the specified base directory. The class
- * uses a ConcurrentHashMap to efficiently manage file paths for concurrent writes.
+ * uses a ConcurrentHashMap to efficiently manage file paths.
  */
 public class FileOutputStrategy implements OutputStrategy {
 
@@ -22,9 +22,9 @@ public class FileOutputStrategy implements OutputStrategy {
     public final ConcurrentHashMap<String, String> fileMap = new ConcurrentHashMap<>();
 
     /**
-     * Constructs a FileOutputStrategy that stores files in the specified directory.
+     * Constructs a file output strategy. 
      *
-     * @param baseDirectory the directory where files will be stored
+     * @param baseDirectory the directory where files will be stored.
      */
     public FileOutputStrategy(String baseDirectory) {
         // Corrected parameter assignment
@@ -32,15 +32,12 @@ public class FileOutputStrategy implements OutputStrategy {
     }
 
     /**
-     * Outputs patient data to a file corresponding to the given label.
-     * <p>
-     * If the base directory does not exist, it will be created. Each label is associated
-     * with a unique file, and new data is appended to the file in a thread-safe manner.
-     * </p>
+     * Writes the patient data to the file corresponding to the data label.
+     * If the base directory does not exist, it will be created.
      *
      * @param patientId the ID of the patient
      * @param timestamp the timestamp of the measurement in milliseconds
-     * @param label the type of measurement (e.g., "HeartRate")
+     * @param label the type of measurement
      * @param data the actual measurement value as a string
      */
     @Override

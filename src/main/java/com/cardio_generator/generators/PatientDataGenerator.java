@@ -3,12 +3,16 @@ package com.cardio_generator.generators;
 import com.cardio_generator.outputs.OutputStrategy;
 
 /**
- * Represents a generator for patient health data.
- * Implementations of this interface are responsible for generating
- * specific types of measurements (like heart rate, blood pressure)
- * and sending them to a specified output strategy.
+ * <p>
+ * The is the core interface for in the system. It defines a contract 
+ * that all patient data generator must follow.
+ * </p> 
  * 
- * Implementations should define how the data is generated and formatted.
+ * <p>
+ * Implementations of this interface are responsible for generating 
+ * medical data for a specific patient and sending it through a 
+ * chosen output strategy.
+ * </p>
  * 
  * @author Roshik
  */
