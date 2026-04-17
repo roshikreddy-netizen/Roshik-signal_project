@@ -12,14 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  * Each unique data label gets its own file within the specified base directory. The class
  * uses a ConcurrentHashMap to efficiently manage file paths for concurrent writes.
- * </p>
- * <p>
- * Usage:
- * <pre>
- * FileOutputStrategy fileOutput = new FileOutputStrategy("data/output");
- * fileOutput.output(patientId, timestamp, "HeartRate", "80");
- * </pre>
- * </p>
  */
 public class FileOutputStrategy implements OutputStrategy {
 

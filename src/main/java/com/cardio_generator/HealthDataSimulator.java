@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * java HealthDataSimulator --patient-count 100 --output websocket:8080
  * </pre>
  *
- * @author Your
+ * @author Roshik
  * @version 1.0
  */
 public class HealthDataSimulator {

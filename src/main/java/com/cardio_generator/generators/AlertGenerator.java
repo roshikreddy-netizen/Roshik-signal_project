@@ -5,20 +5,15 @@ import java.util.Random;
 import com.cardio_generator.outputs.OutputStrategy;
 
 /**
- * Generates alerts for patients based on a probabilistic model.
+ * Generates alerts for patients using a probability based model.
  * Each patient can have an alert triggered or resolved.
  * <p>
  * This class keeps track of alert states for each patient and
- * simulates alerts with a probabilistic approach.
+ * simulates alerts with based on probabilities.
  * Alerts can either be "triggered" or "resolved" over time.
  * </p>
- * Usage:
- * <pre>
- * AlertGenerator generator = new AlertGenerator(patientCount);
- * generator.generate(patientId, outputStrategy);
- * </pre>
  * 
- * @author Your Name
+ * @author Roshik
  */
 public class AlertGenerator implements PatientDataGenerator {
 
