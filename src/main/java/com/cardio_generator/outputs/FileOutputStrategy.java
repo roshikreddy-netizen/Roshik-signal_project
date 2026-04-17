@@ -39,6 +39,8 @@ public class FileOutputStrategy implements OutputStrategy {
      * @param timestamp the timestamp of the measurement in milliseconds
      * @param label the type of measurement
      * @param data the actual measurement value as a string
+     * 
+     * @throws IOException creation id directory fails.
      */
     @Override
     public void output(int patientId, long timestamp, String label, String data) {

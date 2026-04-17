@@ -24,6 +24,8 @@ public interface PatientDataGenerator {
      *
      * @param patientId the unique identifier of the patient for whom the data is generated
      * @param outputStrategy the strategy to which the generated data will be sent
-     */
+     * @return void (data is sent directly to output strategy)
+     * @throws IllegalArguementException if patientId <= 0      
+     * */
     void generate(int patientId, OutputStrategy outputStrategy);
 }

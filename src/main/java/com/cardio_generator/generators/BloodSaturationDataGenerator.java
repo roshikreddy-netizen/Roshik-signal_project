@@ -49,6 +49,8 @@ public class BloodSaturationDataGenerator implements PatientDataGenerator {
      * 
      * @param patientId the ID of the patient for whom to generate data (must be between 1 and patientCount)
      * @param outputStrategy the output strategy responsible for handling the generated data
+     * 
+     * @throws Exception if patientID is invalid.
      */
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {

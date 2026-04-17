@@ -34,6 +34,8 @@ public class TcpOutputStrategy implements OutputStrategy {
      * Only one client connection is accepted at once.
      * 
      * @param port TCP port number to listen on
+     * 
+     * @throws IOException if client connection is not established.
      */
     public TcpOutputStrategy(int port) {
         try {
