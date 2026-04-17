@@ -53,7 +53,7 @@ public class AlertGenerator implements PatientDataGenerator {
             if (alertStates[patientId]) {
                 if (RANDOM_GENERATOR.nextDouble() < 0.9) { // 90% chance to resolve
                     alertStates[patientId] = false;
-                    // Output the alert
+                    /* Output the alert (correct basic comment formatting) */
                     outputStrategy.output(patientId, System.currentTimeMillis(), "Alert", "resolved");
                 }
             } else {
@@ -64,12 +64,12 @@ public class AlertGenerator implements PatientDataGenerator {
 
                 if (alertTriggered) {
                     alertStates[patientId] = true;
-                    // Output the alert
+                    /*Output the alert (correct basic comment formatting)*/
                     outputStrategy.output(patientId, System.currentTimeMillis(), "Alert", "triggered");
                 }
             }
         } catch (Exception e) {
-            // Proper error handling with informative message
+            /* Proper error handling with infromative meassge (correct basic comment formatting) */
             System.err.println("An error occurred while generating alert data for patient " + patientId);
             e.printStackTrace();
         }

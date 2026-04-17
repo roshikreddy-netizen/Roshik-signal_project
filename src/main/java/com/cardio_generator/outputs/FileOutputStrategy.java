@@ -27,7 +27,7 @@ public class FileOutputStrategy implements OutputStrategy {
      * @param baseDirectory the directory where files will be stored.
      */
     public FileOutputStrategy(String baseDirectory) {
-        // Corrected parameter assignment
+        /*Corrected parameter assignment (correct basic comment formatting) */
         this.baseDirectory = baseDirectory;
     }
 
@@ -45,7 +45,7 @@ public class FileOutputStrategy implements OutputStrategy {
     @Override
     public void output(int patientId, long timestamp, String label, String data) {
         try {
-            // Create directory 
+            /*Create directory(correct basic comment formatting)*/  
             Files.createDirectories(Paths.get(baseDirectory));
         } catch (IOException e) {
             System.err.println("Error creating base directory: " + e.getMessage());
@@ -57,7 +57,7 @@ public class FileOutputStrategy implements OutputStrategy {
             Paths.get(baseDirectory, label + ".txt").toString()
         );
 
-        // Write the data to the file
+        /* Write the data to the file(corrected basic comment formatting)*/ 
         try (PrintWriter out = new PrintWriter(
                 Files.newBufferedWriter(Paths.get(filePath), StandardOpenOption.CREATE, StandardOpenOption.APPEND))) {
             out.printf("Patient ID: %d, Timestamp: %d, Label: %s, Data: %s%n", patientId, timestamp, label, data);
