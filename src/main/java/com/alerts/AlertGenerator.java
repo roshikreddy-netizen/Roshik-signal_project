@@ -13,7 +13,7 @@ public class AlertGenerator {
     private DataStorage dataStorage;
 
     /**
-     * Constructs an  with a specified {@code DataStorage}.
+     * Constructs an  with a specified.
      * The  is used to retrieve patient data that this class
      * will monitor and evaluate.
      *
@@ -25,12 +25,11 @@ public class AlertGenerator {
     }
 
     /**
+     * <p>
      * Evaluates the specified patient's data to determine if any alert conditions
-     * are met. If a condition is met, an alert is triggered via the
-     * 
-     * method. This method should define the specific conditions under which an
-     * alert
-     * will be triggered.
+     * are met. If a condition is met, an alert is triggered via the method. This method should define to the specific conditions under which an
+     * alert will be triggered. Currently consists of no implementation.  
+     * </p>
      *
      * @param patient the patient data to evaluate for alert conditions
      */
@@ -44,6 +43,8 @@ public class AlertGenerator {
      * currently assumes that the alert information is fully formed when passed as
      * an argument.
      *
+     * 
+     * 
      * @param alert the alert object containing details about the alert condition
      */
     private void triggerAlert(Alert alert) {
