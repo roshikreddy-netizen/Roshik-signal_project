@@ -31,7 +31,7 @@ public class TcpOutputStrategy implements OutputStrategy {
     /**
      * Creates a TCP server on a port and waits for a client connection.
      * Once a client connects, a PrintWriter is initialized to send messages.
-     * Only one client connection is accepted at once.
+     * Only one client is connected once.
      * 
      * @param port TCP port number to listen on
      * 
