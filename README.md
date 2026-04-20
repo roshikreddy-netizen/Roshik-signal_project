@@ -17,6 +17,9 @@ The Cardio Data Simulator is a Java-based application designed to simulate real-
 
 ## Getting Started
 
+### UML model
+   -https://github.com/roshikreddy-netizen/Roshik-signal_project/blob/master/uml_models.pdf 
+
 ### Prerequisites
 
 - Java JDK 11 or newer.
