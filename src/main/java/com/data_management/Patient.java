@@ -23,6 +23,19 @@ public class Patient {
         this.patientId = patientId;
         this.patientRecords = new ArrayList<>();
     }
+    
+    /** getPatientID gives access to the private patientID field
+     * In the alert system, we use the patientId from Patient to label alerts, 
+     * while PatientRecord uses its own stored 
+     * patientId to represent individual measurements. 
+     * This separation is correct because the Patient ID identifies the person, 
+     * while PatientRecord just repeats that ID to 
+     * link each measurement back to the correct patient.
+      */
+
+    public int getPatientId(){
+        return patientId;
+    }
 
     /**
      * Adds a new record to this patient's list of medical records.
@@ -45,13 +58,32 @@ public class Patient {
      * specified time range.
      * The method filters records based on the start and end times provided.
      *
-     * @param startTime the start of the time range, in milliseconds since UNIX
-     *                  epoch
-     * @param endTime   the end of the time range, in milliseconds since UNIX epoch
+     * @param startTime the start of the time range, in milliseconds.
+     * @param endTime   the end of the time range, in milliseconds 
      * @return a list of PatientRecord objects that fall within the specified time
      *         range
      */
     public List<PatientRecord> getRecords(long startTime, long endTime) {
-        return new ArrayList<>();
+        List<PatientRecord> filteredRecords = new ArrayList<>();
+        /**Logic:
+         *  Iterates through all stored records for a patient.
+         *  Checks each record's timestamp.
+         * Includes the record only if it is between startTime and endTime (inclusive).
+         *
+         * Assumptions:
+         * patientRecords contains all historical records for the patient.
+         * timestamps are stored in milliseconds.
+         * Records are not necessarily sorted, so full iteration is required.
+         */
+    for (PatientRecord record : patientRecords) {
+
+        long timestamp = record.getTimestamp();
+
+        if (timestamp >= startTime && timestamp <= endTime) {
+            filteredRecords.add(record);
+        }
+    }
+
+    return filteredRecords;
     }
 }

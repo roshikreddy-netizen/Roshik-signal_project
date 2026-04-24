@@ -104,8 +104,19 @@ public class DataStorage {
         AlertGenerator alertGenerator = new AlertGenerator(storage);
 
         // Evaluate all patients' data to check for conditions that may trigger alerts
-        for (Patient patient : storage.getAllPatients()) {
-            alertGenerator.evaluateData(patient);
-        }
+        // for (Patient patient : storage.getAllPatients()) {
+          alertGenerator.evaluateData();
+      //  }
+
+      /**
+       * <p>
+       *The for loop above for "alertGenerator.evaluateData(patient)" shall be rpelaced
+       * with "alertGenerator.evaluateData()". The method was changed so that AlertGenerator 
+       * evaluates all patients directly from DataStorage instead of being passed one patient at a time. 
+       * Because of this change, the old call that passes a Patient object no longer matches the new 
+       * method signature, which causes the error. Updating the call ensures the code stays consistent 
+       * and allows the alert system to properly process all stored patient data in one place.
+       */
+
     }
 }
