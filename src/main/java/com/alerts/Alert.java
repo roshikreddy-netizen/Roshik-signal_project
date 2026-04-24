@@ -1,7 +1,10 @@
 package com.alerts;
 
-// Represents an alert
+/**
+ * Represents an alert triggered by the system.
+ */
 public class Alert {
+
     private String patientId;
     private String condition;
     private long timestamp;
