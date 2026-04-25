@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.alerts.Alert;
 import com.alerts.AlertGenerator;
 
 /**
@@ -99,13 +101,19 @@ public class DataStorage {
                     ", Data: " + record.getMeasurementValue() +
                     ", Timestamp: " + record.getTimestamp());
         }
-
+            /* NOTE:
+                Alert generation logic was removed from this class to follow the single responsibility principle.
+                DataStorage is responsible only for storing and retrieving patient data, not processing it.
+                Alert evaluation is now handled in a separate class (HealthSystemRunner). 
+            */
+               
+                
         // Initialize the AlertGenerator with the storage
         AlertGenerator alertGenerator = new AlertGenerator(storage);
 
         // Evaluate all patients' data to check for conditions that may trigger alerts
         // for (Patient patient : storage.getAllPatients()) {
-          alertGenerator.evaluateData();
+         // alertGenerator.evaluateData();
       //  }
 
       /**
