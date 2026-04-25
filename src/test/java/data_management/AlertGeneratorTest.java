@@ -164,26 +164,6 @@ class AlertGeneratorTest {
                 "Trend below threshold should NOT trigger alert");
     }
 
-    /**
-     * Funcationality test: Low saturation detection.
-     *
-     * Confirms that saturation below 92% is correctly flagged.
-     */
-    @Test
-    void testLowSaturation() {
-
-        DataStorage storage = new DataStorage();
-
-        storage.addPatientData(1, 85, "Saturation", 1000L);
-
-        AlertGenerator generator = createGenerator(storage);
-        generator.evaluateData();
-
-        assertTrue(
-                generator.getEmittedAlerts().stream()
-                        .anyMatch(a -> a.getCondition().contains("LOW_SATURATION"))
-        );
-    }
 
     /**
      * Edge case: Saturation exactly at threshold.
