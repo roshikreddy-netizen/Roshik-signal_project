@@ -1,5 +1,6 @@
 package com.alerts.types;
 
+
 import com.alerts.Alert;
 
 /**
