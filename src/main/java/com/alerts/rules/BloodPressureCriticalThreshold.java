@@ -33,7 +33,7 @@ public class BloodPressureCriticalThreshold implements AlertRule {
                 if (value > 180 || value < 90) {
                     alerts.add(new Alert(
                             String.valueOf(patient.getPatientId()),
-                            "CRITICAL_SYSTOLIC_PRESSURE",
+                            "Critical Systolic Pressure",
                             r.getTimestamp()
                     ));
                 }
@@ -44,7 +44,7 @@ public class BloodPressureCriticalThreshold implements AlertRule {
                 if (value > 120 || value < 60) {
                     alerts.add(new Alert(
                             String.valueOf(patient.getPatientId()),
-                            "CRITICAL_DIASTOLIC_PRESSURE",
+                            "Critical Diastolic Pressure",
                             r.getTimestamp()
                     ));
                 }

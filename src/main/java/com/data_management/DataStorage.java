@@ -108,13 +108,19 @@ public class DataStorage {
             */
                
                 
-        // Initialize the AlertGenerator with the storage
+       // Initialize the AlertGenerator with the storage
         AlertGenerator alertGenerator = new AlertGenerator(storage);
 
-        // Evaluate all patients' data to check for conditions that may trigger alerts
-        // for (Patient patient : storage.getAllPatients()) {
-         // alertGenerator.evaluateData();
-      //  }
+        /**
+         * Evaluate all patient data.
+         *
+         * The AlertGenerator internally applies all strategies
+         * and checks every patient in the DataStorage.
+         *
+         * No loop is required because the Strategy pattern
+         * places all evaluation process inside AlertGenerator.
+         */
+        alertGenerator.evaluateData();
 
       /**
        * <p>

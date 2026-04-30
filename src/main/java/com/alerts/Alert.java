@@ -3,7 +3,7 @@ package com.alerts;
 /**
  * Represents an alert triggered by the system.
  */
-public class Alert {
+public class Alert implements IAlert {
 
     private String patientId;
     private String condition;

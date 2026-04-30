@@ -37,7 +37,7 @@ public class ThresholdRule implements AlertRule {
                 if (value < minValue || value > maxValue) {
                     alerts.add(new Alert(
                             String.valueOf(patient.getPatientId()),
-                            "THRESHOLD_BREACH: " + vitalType,
+                            "Threshold Crossed: " + vitalType,
                             System.currentTimeMillis()
                     ));
                 }

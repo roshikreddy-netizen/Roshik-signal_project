@@ -46,7 +46,7 @@ public class ECGRule implements AlertRule {
 
                 alerts.add(new Alert(
                         String.valueOf(patient.getPatientId()),
-                        "ABNORMAL_ECG_SPIKE",
+                        "Abnormal ECG Spike",
                         current.getTimestamp()
                 ));
             }

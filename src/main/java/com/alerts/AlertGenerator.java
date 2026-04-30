@@ -12,75 +12,85 @@ import java.util.List;
 
 /**
  * Coordinates alert rule execution.
+ *
+ * Before, this class contained hardcoded logic for checking conditions.
+ * Has been changed to assign all alert logic to AlertRule classes,
+ * improving modularity and following the Strategy pattern.
  */
 public class AlertGenerator {
 
+    /** Central data source for all patient records */
     private DataStorage dataStorage;
+
+    /**
+     * List of alert rules used to evaluate patient data.
+     *
+     * This replaces the old hardcoded methods (e.g., checkBloodPressure),
+     * allowing behavior to be changed dynamically without modifying this class.
+     */
     private List<AlertRule> rules;
 
+    /** Stores all alerts generated during evaluation */
     private List<Alert> emittedAlerts = new ArrayList<>();
 
+    /**
+     * Primary constructor using dependency injection.
+     *
+     * This was introduced to follow SOLID principles (especially OCP and DIP),
+     * allowing external configuration of rules instead of hardcoding them.
+     */
     public AlertGenerator(DataStorage dataStorage, List<AlertRule> rules) {
         this.dataStorage = dataStorage;
         this.rules = rules;
     }
 
     /**
- * This is a convenient constructor that initializes the AlertGenerator with a default set of rules.
- *
- * This constructor is provided to maintain compatibility with existing code
- * that only supplies a DataStorage object.
- *
- * It prevents breaking changes while still enforcing the SOLID design in the system,
- * since the full constructor with explicit AlertRule call remains as the main approach.
- */
-public AlertGenerator(DataStorage dataStorage) {
-    this.dataStorage = dataStorage;
-
-    /**
-     * Default rule configuration ensures the system remains functional
-     * without requiring external rule injection.
+     * Convenience constructor with default rules.
      *
-     * This keeps it usable while still allowing full extension
-     * through the main constructor that accepts custom rules.
+     * This was added to maintain backward compatibility with older code
+     * that only passed DataStorage.
+     *
+     * It ensures the system still works out-of-the-box while supporting
+     * more flexible rule injection via the main constructor.
      */
-    this.rules = List.of(
-            new ThresholdRule("SystolicPressure", 90, 180),
-            new ThresholdRule("DiastolicPressure", 60, 120),
-            new CombinedRule(),
-            new TrendRule("SystolicPressure"),
-            new TrendRule("DiastolicPressure")
-    );
-}
+    public AlertGenerator(DataStorage dataStorage) {
+        this.dataStorage = dataStorage;
 
+        /**
+         * Default rule configuration.
+         *
+         * These rules replace the old internal logic methods and represent
+         * the system’s core alert checks in a modular way.
+         */
+        this.rules = List.of(
+                new ThresholdRule("SystolicPressure", 90, 180),
+                new ThresholdRule("DiastolicPressure", 60, 120),
+                new CombinedRule(),
+                new TrendRule("SystolicPressure"),
+                new TrendRule("DiastolicPressure")
+        );
+    }
 
     /**
-     * Evaluates all patients using all rules.
+     * Evaluates all patients using the configured rules.
+     *
+     * This replaces the old approach where each condition was manually checked.
+     * Now, each rule independently decides if an alert should be triggered.
      */
     public void evaluateData() {
-
         for (Patient patient : dataStorage.getAllPatients()) {
-
             for (AlertRule rule : rules) {
-
-                List<Alert> alerts = rule.evaluate(patient);
-
-                for (Alert alert : alerts) {
-                    triggerAlert(alert);
-                }
+                emittedAlerts.addAll(rule.evaluate(patient));
             }
         }
     }
 
-    private void triggerAlert(Alert alert) {
-        emittedAlerts.add(alert);
-
-        System.out.println(
-                "[ALERT] Patient=" + alert.getPatientId() +
-                " Condition=" + alert.getCondition()
-        );
-    }
-
+    /**
+     * Returns all generated alerts.
+     *
+     * This allows external systems (e.g., UI, logging, tests)
+     * to access alert results without tightly coupling to this class.
+     */
     public List<Alert> getEmittedAlerts() {
         return emittedAlerts;
     }

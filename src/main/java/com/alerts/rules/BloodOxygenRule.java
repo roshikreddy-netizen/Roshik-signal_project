@@ -36,7 +36,7 @@ public class BloodOxygenRule implements AlertRule {
             if (r.getMeasurementValue() < 92) {
                 alerts.add(new Alert(
                         String.valueOf(patient.getPatientId()),
-                        "LOW_OXYGEN_SATURATION",
+                        "Low Oxygen Saturation",
                         r.getTimestamp()
                 ));
             }
@@ -55,7 +55,7 @@ public class BloodOxygenRule implements AlertRule {
             if (diff <= 10 * 60 * 1000 && drop >= 5) {
                 alerts.add(new Alert(
                         String.valueOf(patient.getPatientId()),
-                        "RAPID_OXYGEN_DROP",
+                        "Rapid Oxygen Drop",
                         curr.getTimestamp()
                 ));
             }
