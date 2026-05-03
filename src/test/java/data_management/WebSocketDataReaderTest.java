@@ -56,7 +56,7 @@ class WebSocketDataReaderTest {
      * Tests invalid message format.
      *
      * Edge case:
-     * - Missing fields should NOT crash system
+     * - Missing fields should not crash system
      */
     @Test
     void testInvalidFormat() {
