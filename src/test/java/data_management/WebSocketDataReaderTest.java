@@ -35,7 +35,7 @@ class WebSocketDataReaderTest {
     }
 
     /**
-     * Tests percentage parsing (e.g., "98%").
+     * Tests percentage parsing (e.g., 98%).
      *
      * Edge case:
      * - Ensures '%' symbols do not break parsing
