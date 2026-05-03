@@ -37,7 +37,7 @@ class WebSocketIntegrationTest {
 
         assertTrue(
                 generator.getEmittedAlerts().stream()
-                        .anyMatch(a -> a.getCondition().contains("HYPOTENSIVE_HYPOXEMIA")),
+                        .anyMatch(a -> a.getCondition().contains("Hypotensive Hypoxemia")),
                 "Combined condition should trigger alert"
         );
     }
