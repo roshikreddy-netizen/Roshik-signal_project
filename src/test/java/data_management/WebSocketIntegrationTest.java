@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Integration test for real-time system.
  *
  * Verifies that:
- * WebSocket → DataStorage → AlertGenerator pipeline works correctly.
+ * WebSocket -> DataStorage -> AlertGenerator pipeline works correctly.
  */
 class WebSocketIntegrationTest {
 
