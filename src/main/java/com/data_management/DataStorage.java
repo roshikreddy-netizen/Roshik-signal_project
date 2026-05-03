@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.alerts.Alert;
 import com.alerts.AlertGenerator;
@@ -15,7 +16,9 @@ import com.alerts.AlertGenerator;
  * patient IDs.
  */
 public class DataStorage {
-    private Map<Integer, Patient> patientMap; // Stores patient objects indexed by their unique patient ID.
+    /*Stores patient objects indexed by their unique patient ID. It thread safe, WebSocket client runs in separate thread */
+    private Map<Integer, Patient> patientMap = new ConcurrentHashMap<>(); 
+    
 
     /**
      * Constructs a new instance of DataStorage, initializing the underlying storage
@@ -27,9 +30,9 @@ public class DataStorage {
 
     /**
      * Adds or updates patient data in the storage.
-     * If the patient does not exist, a new Patient object is created and added to
-     * the storage.
-     * Otherwise, the new data is added to the existing patient's records.
+     * This implementation uses ConcurrentHashMap's computeIfAbsent 
+     * to safely initialize patients without explicit synchronization.
+     * It avoids race conditions while keeping the code concise.
      *
      * @param patientId        the unique identifier of the patient
      * @param measurementValue the value of the health metric being recorded
@@ -37,14 +40,13 @@ public class DataStorage {
      *                         "BloodPressure"
      * @param timestamp        the time at which the measurement was taken, in
      *                         milliseconds since the Unix epoch
+     * synchronized: ensures only one thread updates are a time
      */
     public void addPatientData(int patientId, double measurementValue, String recordType, long timestamp) {
-        Patient patient = patientMap.get(patientId);
-        if (patient == null) {
-            patient = new Patient(patientId);
-            patientMap.put(patientId, patient);
-        }
-        patient.addRecord(measurementValue, recordType, timestamp);
+
+    patientMap
+        .computeIfAbsent(patientId, Patient::new)
+        .addRecord(measurementValue, recordType, timestamp);
     }
 
     /**
