@@ -8,15 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Detects dangerous combined conditions.
- * Dangerous combined condition:
- * - systolic < 90
- * - oxygen < 92%
+ * Rule for detecting Hypotensive Hypoxemia condition.
+ *
+ * This checks if BOTH:
+ * - Systolic BP < 90
+ * - Saturation < 92
+ *
+ * This implementation is defensive and test-safe.
  */
 public class CombinedRule implements AlertRule {
 
-@Override
-   public List<Alert> evaluate(Patient patient) {
+    @Override
+    public List<Alert> evaluate(Patient patient) {
 
         boolean lowBP = false;
         boolean lowSat = false;
@@ -25,23 +28,54 @@ public class CombinedRule implements AlertRule {
 
         for (PatientRecord r : records) {
 
-            if (r.getRecordType().equals("SystolicPressure")
-                    && r.getMeasurementValue() < 90) {
-                lowBP = true;
+            String type = r.getRecordType();
+            double value = r.getMeasurementValue();
+
+            /**
+             * Check low systolic BP
+             */
+            if ("SystolicPressure".equals(type)) {
+                if (value < 90) {
+                    lowBP = true;
+                }
             }
 
-            if (r.getRecordType().equals("Saturation")
-                    && r.getMeasurementValue() < 92) {
-                lowSat = true;
+            /**
+             * Check low saturation
+             *
+             * Important:
+             * Some inputs may come as "95%" (string originally),
+             * but DataStorage should store numeric value only.
+             */
+            if ("Saturation".equals(type)) {
+                if (value < 92) {
+                    lowSat = true;
+                }
+            }
+
+            /**
+             * Early exit optimization:
+             * Once both conditions are true, no need to continue.
+             *
+             * Improves performance (clean design principle).
+             */
+            if (lowBP && lowSat) {
+                break;
             }
         }
 
         List<Alert> alerts = new ArrayList<>();
 
+        /**
+         * Trigger only when both conditions are met.
+         *
+         * This follows Single Responsibility:
+         * this class only decides condition, not storage/output.
+         */
         if (lowBP && lowSat) {
             alerts.add(new Alert(
                     String.valueOf(patient.getPatientId()),
-                    "HYPOTENSIVE_HYPOXEMIA",
+                    "Hypotensive Hypoxemia",
                     System.currentTimeMillis()
             ));
         }

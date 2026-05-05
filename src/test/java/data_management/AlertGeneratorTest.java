@@ -203,7 +203,7 @@ class AlertGeneratorTest {
 
         assertTrue(
                 generator.getEmittedAlerts().stream()
-                        .anyMatch(a -> a.getCondition().contains("HYPOTENSIVE_HYPOXEMIA"))
+                        .anyMatch(a -> a.getCondition().contains("Hypotensive Hypoxemia"))
         );
     }
 }

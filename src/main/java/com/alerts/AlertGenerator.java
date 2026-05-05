@@ -76,12 +76,36 @@ public class AlertGenerator {
      *
      * This replaces the old approach where each condition was manually checked.
      * Now, each rule independently decides if an alert should be triggered.
+     *
+     * FIX:
+     * - Clears previous alerts to avoid stale results
      */
     public void evaluateData() {
+
+        // Clear previous alerts before running evaluation
+        // WHY:
+        // Prevents old alerts from staying in memory between runs
+        emittedAlerts.clear();
+
         for (Patient patient : dataStorage.getAllPatients()) {
             for (AlertRule rule : rules) {
                 emittedAlerts.addAll(rule.evaluate(patient));
             }
+        }
+    }
+
+    /**
+     * Evaluates a single patient.
+     *
+     * WHY:
+     * - Required for real-time systems (WebSocket streaming)
+     * - Avoids scanning all patients for each update
+     * - Improves performance and correctness in integration tests
+     */
+    public void evaluatePatient(Patient patient) {
+
+        for (AlertRule rule : rules) {
+            emittedAlerts.addAll(rule.evaluate(patient));
         }
     }
 
