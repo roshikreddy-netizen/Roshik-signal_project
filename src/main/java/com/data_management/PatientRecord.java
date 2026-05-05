@@ -20,7 +20,7 @@ public class PatientRecord {
      * 
      * @param patientId        the unique identifier for the patient
      * @param measurementValue the numerical value of the recorded measurement
-     * @param recordType       the type of measurement (e.g., "ECG", "Blood
+     * @param recordType       the type of measurement (example: "ECG", "Blood
      *                         Pressure")
      * @param timestamp        the time at which the measurement was recorded, in
      *                         milliseconds since epoch
@@ -60,7 +60,7 @@ public class PatientRecord {
     }
 
     /**
-     * Returns the type of record (e.g., "ECG", "Blood Pressure").
+     * Returns the type of record (example: "ECG", "Blood Pressure").
      * 
      * @return the record type
      */

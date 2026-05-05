@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Comprehensive tests for AlertGenerator covering both normal and edge cases.
+ * Tests for AlertGenerator covering both normal and edge cases.
  *
  * These tests ensure:
  * - Alerts trigger correctly at boundary thresholds
@@ -41,7 +41,7 @@ class AlertGeneratorTest {
      * Edge case: Tests exact boundary values for blood pressure.
      *
      * Verifies that values exactly equal to thresholds (90 and 180)
-     * do NOT trigger alerts, ensuring strict inequality is respected.
+     * do not trigger alerts, ensuring strict inequality is respected.
      */
     @Test
     void testBloodPressureBoundaryValues() {

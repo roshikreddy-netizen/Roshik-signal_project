@@ -7,7 +7,7 @@ import com.alerts.Alert;
  * Represents alerts related to blood pressure abnormalities.
  *
  * <p>This subclass allows categorization of alerts by type, making it easier
- * to extend behavior in the future (e.g., specialized handling or routing).</p>
+ * to extend behavior in the future (example: specialized handling or routing).</p>
  */
 public class BloodPressureAlert extends Alert {
 

@@ -46,7 +46,7 @@ public class WebSocketClientImpl extends WebSocketClient {
      * format assumption:
      * patientId,timestamp,label,value
      *
-     * Why:
+     * Reason:
      * - Parses stream into structured data
      * - Sends data to DataStorage for persistence
      */
@@ -66,7 +66,7 @@ public class WebSocketClientImpl extends WebSocketClient {
         } catch (Exception e) {
 
             /**
-             * why:
+             * Reason:
              * - Prevents system crash from bad network data
              * - Ensures resilience in real-time systems
              */

@@ -9,7 +9,7 @@ import java.net.URI;
  * Reads real-time data from WebSocket server and stores it.
  *
  * This class adapts streaming input into the existing DataStorage system.
- * Follows Single Responsibility: only handles communication + parsing.
+ * Follows Single Responsibility: only handles communication and parsing.
  */
 public class WebSocketDataReader implements DataReader {
 

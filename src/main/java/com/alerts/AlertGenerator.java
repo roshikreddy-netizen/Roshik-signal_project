@@ -83,7 +83,7 @@ public class AlertGenerator {
     public void evaluateData() {
 
         // Clear previous alerts before running evaluation
-        // WHY:
+        // Reason:
         // Prevents old alerts from staying in memory between runs
         emittedAlerts.clear();
 
@@ -97,7 +97,7 @@ public class AlertGenerator {
     /**
      * Evaluates a single patient.
      *
-     * WHY:
+     * Reason:
      * - Required for real-time systems (WebSocket streaming)
      * - Avoids scanning all patients for each update
      * - Improves performance and correctness in integration tests

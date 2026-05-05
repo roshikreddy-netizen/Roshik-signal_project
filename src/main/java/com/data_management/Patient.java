@@ -43,7 +43,7 @@ public class Patient {
      * timestamp.
      *
      * @param measurementValue the measurement value to store in the record
-     * @param recordType       the type of record, e.g., "HeartRate",
+     * @param recordType       the type of record. Example: "HeartRate",
      *                         "BloodPressure"
      * @param timestamp        the time at which the measurement was taken, in
      *                         milliseconds since UNIX epoch
