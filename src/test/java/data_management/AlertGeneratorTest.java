@@ -18,12 +18,21 @@ import static org.junit.jupiter.api.Assertions.*;
  * - No alerts are triggered when conditions are not met
  * - System behaves safely with minimal or missing data
  * - Combined and multi-condition logic works as expected
+ *
+ * 
+ * - Unit tests validate expected system behavior
+ * - Explicit checks reduce ambiguous test results
+ * - Edge cases improve system reliability
  */
 class AlertGeneratorTest {
 
     /**
      * Creates a standard AlertGenerator with all relevant rules.
      * This ensures consistency across tests and isolates rule configuration.
+     *
+     * 
+     * - Reusing setup logic avoids duplicated code
+     * - Supports maintainability and clean test structure
      */
     private AlertGenerator createGenerator(DataStorage storage) {
         return new AlertGenerator(
@@ -42,6 +51,9 @@ class AlertGeneratorTest {
      *
      * Verifies that values exactly equal to thresholds (90 and 180)
      * do not trigger alerts, ensuring strict inequality is respected.
+     *
+     * 
+     * - Boundary testing helps detect comparison logic errors
      */
     @Test
     void testBloodPressureBoundaryValues() {
@@ -54,6 +66,13 @@ class AlertGeneratorTest {
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
 
+        /**
+         * Verifies no alerts were generated.
+         * Exact boundary values should remain valid.
+         */
+        assertEquals(0,
+                generator.getEmittedAlerts().size());
+
         assertTrue(generator.getEmittedAlerts().isEmpty(),
                 "Boundary values should NOT trigger alerts");
     }
@@ -63,6 +82,9 @@ class AlertGeneratorTest {
      *
      * Verifies system correctly flags dangerous values far beyond thresholds.
      * Ensures no upper/lower bound limitations break detection.
+     *
+     * 
+     * - Extreme testing validates system robustness
      */
     @Test
     void testExtremeBloodPressureValues() {
@@ -75,6 +97,25 @@ class AlertGeneratorTest {
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
 
+        /**
+         * Verifies alerts were generated correctly.
+         * Explicit checks reduce ambiguous test outcomes.
+         */
+        assertEquals(2,
+                generator.getEmittedAlerts().size());
+
+        Alert firstAlert = generator.getEmittedAlerts().get(0);
+
+        /**
+         * Verifies correct patient triggered alert.
+         */
+        assertEquals("1",
+                firstAlert.getPatientId());
+
+        assertTrue(generator.getEmittedAlerts().stream()
+                        .allMatch(a -> a.getPatientId().equals("1")),
+                "All alerts should belong to patient 1");
+
         assertFalse(generator.getEmittedAlerts().isEmpty(),
                 "Extreme values must trigger alerts");
     }
@@ -84,6 +125,9 @@ class AlertGeneratorTest {
      *
      * Ensures system does not crash or produce false alerts
      * when no records are available.
+     *
+     * 
+     * - Empty input handling improves system stability
      */
     @Test
     void testNoData() {
@@ -92,6 +136,12 @@ class AlertGeneratorTest {
 
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
+
+        /**
+         * Verifies empty datasets produce no alerts.
+         */
+        assertEquals(0,
+                generator.getEmittedAlerts().size());
 
         assertTrue(generator.getEmittedAlerts().isEmpty(),
                 "No data should result in no alerts");
@@ -102,6 +152,9 @@ class AlertGeneratorTest {
      *
      * Ensures that rules requiring multiple data points (like trends)
      * do not trigger incorrectly.
+     *
+     * 
+     * - Prevents false positives from incomplete data
      */
     @Test
     void testSingleReadingNoTrend() {
@@ -113,6 +166,12 @@ class AlertGeneratorTest {
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
 
+        /**
+         * Verifies trend logic requires enough readings.
+         */
+        assertEquals(0,
+                generator.getEmittedAlerts().size());
+
         assertTrue(generator.getEmittedAlerts().isEmpty(),
                 "Single reading should NOT trigger trend alerts");
     }
@@ -122,6 +181,9 @@ class AlertGeneratorTest {
      *
      * Uses 3 readings with >10 mmHg increase each time.
      * Confirms trend rule correctly identifies upward patterns.
+     *
+     * WHY:
+     * - Validates business logic for trend monitoring
      */
     @Test
     void testIncreasingTrendAlert() {
@@ -135,6 +197,22 @@ class AlertGeneratorTest {
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
 
+        /**
+         * Verifies trend alert was generated.
+         */
+        assertEquals(1,
+                generator.getEmittedAlerts().size());
+
+        Alert alert = generator.getEmittedAlerts().get(0);
+
+        /**
+         * Verifies correct patient and alert type.
+         */
+        assertEquals("1",
+                alert.getPatientId());
+
+        assertTrue(alert.getCondition().contains("TREND"));
+
         assertTrue(
                 generator.getEmittedAlerts().stream()
                         .anyMatch(a -> a.getCondition().contains("TREND")),
@@ -145,8 +223,11 @@ class AlertGeneratorTest {
     /**
      * Edge case: Tests trend values just below threshold.
      *
-     * Ensures that changes ≤10 mmHg do NOT trigger alerts,
+     * Ensures that changes =<10 mmHg do NOT trigger alerts,
      * validating correct threshold sensitivity.
+     *
+     * 
+     * - Validates strict threshold comparison logic
      */
     @Test
     void testTrendBelowThreshold() {
@@ -160,6 +241,12 @@ class AlertGeneratorTest {
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
 
+        /**
+         * Verifies no alert is generated below threshold.
+         */
+        assertEquals(0,
+                generator.getEmittedAlerts().size());
+
         assertTrue(generator.getEmittedAlerts().isEmpty(),
                 "Trend below threshold should NOT trigger alert");
     }
@@ -169,6 +256,9 @@ class AlertGeneratorTest {
      * Edge case: Saturation exactly at threshold.
      *
      * Ensures value = 92% does NOT trigger alert.
+     *
+     * 
+     * - Boundary checks improve accuracy of rule validation
      */
     @Test
     void testSaturationBoundary() {
@@ -180,6 +270,12 @@ class AlertGeneratorTest {
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
 
+        /**
+         * Verifies threshold equality does not trigger alert.
+         */
+        assertEquals(0,
+                generator.getEmittedAlerts().size());
+
         assertTrue(generator.getEmittedAlerts().isEmpty(),
                 "Boundary saturation should NOT trigger alert");
     }
@@ -189,6 +285,8 @@ class AlertGeneratorTest {
      *
      * Verifies simultaneous low BP and low saturation
      * triggers critical combined alert.
+     *
+     * - Combined rules validate multi-condition logic
      */
     @Test
     void testCombinedCondition() {
@@ -200,6 +298,20 @@ class AlertGeneratorTest {
 
         AlertGenerator generator = createGenerator(storage);
         generator.evaluateData();
+
+        /**
+         * Verifies exactly one combined alert exists.
+         */
+        assertEquals(1,
+                generator.getEmittedAlerts().size());
+
+        Alert alert = generator.getEmittedAlerts().get(0);
+
+        /**
+         * Verifies alert belongs to correct patient.
+         */
+        assertEquals("1",
+                alert.getPatientId());
 
         assertTrue(
                 generator.getEmittedAlerts().stream()
