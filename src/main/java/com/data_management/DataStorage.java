@@ -15,18 +15,46 @@ import com.alerts.AlertGenerator;
  * This class serves as a repository for all patient records, organized by
  * patient IDs.
  */
-public class DataStorage {
-    /*Stores patient objects indexed by their unique patient ID. It thread safe, WebSocket client runs in separate thread */
-    private Map<Integer, Patient> patientMap = new ConcurrentHashMap<>(); 
-    
 
+
+
+public class DataStorage {
+
+    /** Singleton shared instance of DataStorage
+     * 
+     * - Prevents multiple inconsistent sotrage objects 
+     * -Provide gloabl access point
+     */
+    private static DataStorage instance;
+
+    /*Stores patient objects indexed by their unique patient ID. 
+    It is thread safe, WebSocket client runs in separate thread */
+    private Map<Integer, Patient> patientMap; 
+    
     /**
      * Constructs a new instance of DataStorage, initializing the underlying storage
      * structure.
      */
     public DataStorage() {
-        this.patientMap = new HashMap<>();
+        this.patientMap = new ConcurrentHashMap<>();
     }
+
+    /**
+     * Returns the shared DataStorage instance.
+     *
+     * why:
+     * - Ensures all components use same storage object
+     * - synchronized prevents race conditions during creation
+     */
+    public static synchronized DataStorage getInstance() {
+
+        if (instance == null) {
+            instance = new DataStorage();
+        }
+
+        return instance;
+    }
+
 
     /**
      * Adds or updates patient data in the storage.
@@ -89,11 +117,20 @@ public class DataStorage {
     public static void main(String[] args) {
         // DataReader is not defined in this scope, should be initialized appropriately.
         // DataReader reader = new SomeDataReaderImplementation("path/to/data");
-        DataStorage storage = new DataStorage();
+
+        /**
+         * Singleton access replaces constructor usage.
+         */
+        DataStorage storage = DataStorage.getInstance();
 
         // Assuming the reader has been properly initialized and can read data into the
         // storage
         // reader.readData(storage);
+
+         /**
+         * Singleton access replaces constructor usage.
+         */
+
 
         // Example of using DataStorage to retrieve and print records for a patient
         List<PatientRecord> records = storage.getRecords(1, 1700000000000L, 1800000000000L);
@@ -135,4 +172,6 @@ public class DataStorage {
        */
 
     }
+    
+
 }

@@ -13,8 +13,19 @@ import com.alerts.types.BloodOxygenAlert;
  * from condition-checking logic.
  */
 public class BloodOxygenAlertFactory extends AlertFactory {
-@Override
-    public Alert createAlert(String patientId, String condition, long timestamp) {
-        return new Alert(patientId, "ECG_ALERT: " + condition, timestamp);
+
+    /**
+     * Creates BloodOxygenAlert object.
+     */
+    @Override
+    public Alert createAlert(String patientId,
+                             String condition,
+                             long timestamp) {
+
+        return new BloodOxygenAlert(
+                patientId,
+                condition,
+                timestamp
+        );
     }
 }

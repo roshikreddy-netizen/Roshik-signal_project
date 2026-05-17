@@ -59,20 +59,60 @@ public class HealthDataSimulator {
     private static final Random random = new Random();
 
     /**
+     * Single shared simulator instance.
+     * 
+     * Why:
+     * - Ensures only one simulator controller exists
+     * - Prevents duplicate scheduler systems
+     */
+    private static HealthDataSimulator instance;
+
+    /**
+     * Private constructor prevents external object creation.
+     * 
+     * Why:
+     * - Required for Singleton pattern
+     * - Controls instance creation internally
+     */
+    private HealthDataSimulator() {
+
+        }
+
+    /**
+     * Returns shared simulator instance.
+     * 
+     * Why:
+     * - Provides one global access point
+     * - Uses lazy initialization for efficiency
+     * 
+     * @return singleton simulator instance
+     */
+    public static synchronized HealthDataSimulator getInstance() {
+
+        if (instance == null) {
+            instance = new HealthDataSimulator();
+        }
+
+        return instance;
+    }
+
+    /**
      * Main entry point for the HealthDataSimulator program.
      *
      * @param args Command-line arguments specifying patient count and output method
      * @throws IOException if output directories cannot be created
      */
     public static void main(String[] args) throws IOException {
+
         parseArguments(args);
         /**
          * Issue fixed = The thred pool size was potentially too large(patientCount * 4). 
          * This is now limited avoiding excessive thread creation and memory overload.
          * 
         **/
+        HealthDataSimulator simulator = HealthDataSimulator.getInstance();
         int poolSize = Math.min(patientCount * 2, 100);
-        scheduler = Executors.newScheduledThreadPool(patientCount * 4);
+        scheduler = Executors.newScheduledThreadPool(poolSize);
 
         List<Integer> patientIds = initializePatientIds(patientCount);
         Collections.shuffle(patientIds); // Randomize the order of patient IDs
